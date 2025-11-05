@@ -1,5 +1,7 @@
-from controllers.customer_controller import register_customer, login_customer, get_customer, update_customer
+from controllers.user_controller import  register_user, login_user, get_user, update_user
 
+from controllers.room_controller import get_all_rooms, get_room , create_room, update_room, delete_room
 
+__all__ = ['register_user', 'login_user', 'get_user', 'update_user']
 
-__all__ = ['register_customer', 'login_customer', 'get_customer', 'update_customer']
+__all__.extend(['get_all_rooms', 'get_room', 'create_room', 'update_room', 'delete_room'])

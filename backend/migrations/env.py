@@ -1,3 +1,14 @@
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+
+base_dir = Path(__file__).resolve().parent.parent  
+dotenv_path = base_dir / '.env' 
+
+
+load_dotenv(dotenv_path)
+
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -19,7 +30,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from database import Base
-from models import Booking, Customer, Room  # Import your models here
+from models import Booking, User, Room  # Import your models here
 
 target_metadata = Base.metadata
 

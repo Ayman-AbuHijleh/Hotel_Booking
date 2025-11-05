@@ -1,5 +1,5 @@
-from schemas.customer_schema import CustomerBaseSchema, CustomerRegisterSchema, CustomerLoginSchema, CustomerReadSchema, CustomerUpdateSchema
+from schemas.user_schema import UserBaseSchema, UserRegisterSchema, UserLoginSchema, UserReadSchema, UserUpdateSchema
 
+from schemas.room_schema import RoomSchema
 
-
-__all__ = ["CustomerRegisterSchema","CustomerLoginSchema","CustomerReadSchema","CustomerUpdateSchema"]
+_all__ = ['UserBaseSchema', 'UserRegisterSchema', 'UserLoginSchema', 'UserReadSchema', 'UserUpdateSchema', 'RoomSchema']

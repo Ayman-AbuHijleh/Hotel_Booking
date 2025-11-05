@@ -4,7 +4,7 @@ load_dotenv()
 
 from flask import Flask
 from database import Base, engine
-from routes import customer_bp
+from routes import user_bp, room_bp
 from config import Config
 from flask import jsonify
 from utils import init_cache
@@ -18,7 +18,8 @@ def create_app():
     init_cache(app)
 
     #blueprint registeration
-    app.register_blueprint(customer_bp,url_prefix='/api')
+    app.register_blueprint(user_bp,url_prefix='/api')
+    app.register_blueprint(room_bp,url_prefix='/api')
   
 
    

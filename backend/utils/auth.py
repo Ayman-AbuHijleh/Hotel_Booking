@@ -3,8 +3,17 @@ from functools import wraps
 from flask import request, jsonify, g
 import jwt
 from config import Config
-from models import Customer
+from models import User
 from database import Session
+
+def admin_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        user = getattr(g, "current_user", None)
+        if not user or getattr(user, "role", None) != "admin":
+            return jsonify({"message": "Admin access required"}), 403
+        return f(*args, **kwargs)
+    return decorated
 
 def token_required(f):
     @wraps(f)
@@ -23,7 +32,7 @@ def token_required(f):
             
  
             try:
-                customer_uuid = uuid.UUID(data["customer_id"])
+                user_uuid = uuid.UUID(data["user_id"])
             except (ValueError, AttributeError):
                 return jsonify({"message": "Invalid token data"}), 401
 
@@ -33,13 +42,13 @@ def token_required(f):
             return jsonify({"message": "Token is invalid"}), 401
 
         session = Session()
-        current_customer = session.query(Customer).get(customer_uuid)
+        current_user = session.query(User).get(user_uuid)
         session.close()
 
-        if not current_customer:
+        if not current_user:
             return jsonify({"message": "User not found"}), 401
 
-        g.current_customer = current_customer
+        g.current_user = current_user
         return f(*args, **kwargs)
 
     return decorated
