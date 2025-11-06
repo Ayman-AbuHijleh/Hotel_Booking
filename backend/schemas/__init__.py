@@ -2,4 +2,6 @@ from schemas.user_schema import UserBaseSchema, UserRegisterSchema, UserLoginSch
 
 from schemas.room_schema import RoomSchema
 
-_all__ = ['UserBaseSchema', 'UserRegisterSchema', 'UserLoginSchema', 'UserReadSchema', 'UserUpdateSchema', 'RoomSchema']
+from schemas.booking_schema import BookingSchema
+
+_all__ = ['UserBaseSchema', 'UserRegisterSchema', 'UserLoginSchema', 'UserReadSchema', 'UserUpdateSchema', 'RoomSchema', 'BookingSchema']

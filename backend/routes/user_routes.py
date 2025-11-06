@@ -1,20 +1,18 @@
 from flask import Blueprint, request, jsonify, g
 from controllers import register_user, login_user, get_user, update_user
-from utils import token_required
-from utils import cache
+from utils import token_required, limiter, cache
+from flask_limiter.util import get_remote_address
 
 user_bp = Blueprint('user', __name__)
-
 
 @user_bp.route('/user/register', methods=['POST'])
 def register_route():
     return register_user()
 
-
 @user_bp.route('/user/login', methods=['POST'])
+@limiter.exempt
 def login_route():
     return login_user()
-
 
 @user_bp.route('/user/<uuid:user_id>')
 @token_required
@@ -22,7 +20,8 @@ def login_route():
 def get_user_route(user_id):
     return get_user(user_id)
 
-@user_bp.route('/user/update/<uuid:user_id>',methods=['PUT'])
+@user_bp.route('/user/update/<uuid:user_id>', methods=['PUT'])
 @token_required
+@limiter.limit("10 per hour") 
 def update_user_route(user_id):
     return update_user(user_id)
