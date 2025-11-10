@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Enum
+from sqlalchemy import Column, String, Enum, Index
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,12 +10,17 @@ class User(Base):
 
     user_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     name = Column(String(100), nullable=False)
-    email = Column(String(100), unique=True, nullable=False)
+    email = Column(String(100), unique=True, nullable=False, index=True)
     phone = Column(String(20))
     password = Column(String(255), nullable=False)
-    role = Column(Enum('admin', 'customer', name='user_roles'), nullable=False, default='customer')
+    role = Column(Enum('admin', 'customer', name='user_roles'), nullable=False, default='customer', index=True)
 
-    bookings = relationship("Booking", back_populates="user")
+    bookings = relationship("Booking", back_populates="user", lazy="select")
+
+    # Composite index for common queries
+    __table_args__ = (
+        Index('idx_user_email_role', 'email', 'role'),
+    )
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

@@ -69,7 +69,7 @@ def login_user():
             }, Config.SECRET_KEY, algorithm="HS256")
 
             logger.info(f"User logged in: {user.email}")
-            return jsonify({"message": "Login successful", "token": token}), 200
+            return jsonify({"message": "Login successful", "token": token,"user": schema.dump(user)}), 200
         else:
             return jsonify({"message": "Invalid email or password"}), 401
 

@@ -5,6 +5,7 @@ from schemas import RoomSchema
 from marshmallow import ValidationError
 import uuid
 from utils import cache, logger
+from sqlalchemy.orm import joinedload
 
 def existing_room(room_number):
     session = Session()
@@ -17,10 +18,43 @@ def existing_room(room_number):
 def get_all_rooms():
     session = Session()
     try:
+        # Get pagination parameters
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 50, type=int)
+        status = request.args.get('status', None, type=str)
+        room_type = request.args.get('room_type', None, type=str)
+        
+        # Limit per_page to prevent abuse
+        per_page = min(per_page, 100)
+        
+        # Build query
+        query = session.query(R)
+        
+        # Apply filters
+        if status:
+            query = query.filter_by(status=status)
+        if room_type:
+            query = query.filter_by(room_type=room_type)
+        
+        # Get total count for pagination info
+        total_count = query.count()
+        
+        # Apply pagination
+        offset = (page - 1) * per_page
+        rooms = query.offset(offset).limit(per_page).all()
+        
         schema = RoomSchema(many=True)
-        rooms = session.query(R).all()
-        logger.info(f"User {g.current_user.user_id} fetched all rooms")
-        return schema.dump(rooms), 200
+        logger.info(f"User {g.current_user.user_id} fetched rooms (page {page})")
+        
+        return jsonify({
+            "data": schema.dump(rooms),
+            "pagination": {
+                "page": page,
+                "per_page": per_page,
+                "total": total_count,
+                "pages": (total_count + per_page - 1) // per_page
+            }
+        }), 200
     except Exception as e:
         logger.error(f"Error fetching all rooms: {str(e)}")
         return jsonify({"message": "Server Error", "error": str(e)}), 500

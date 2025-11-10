@@ -5,6 +5,7 @@ from schemas import BookingSchema
 from marshmallow import ValidationError
 from utils import cache, logger
 import uuid
+from sqlalchemy.orm import joinedload
 
 def existing_booking(booking_id):
     session = Session()
@@ -63,7 +64,11 @@ def create_booking():
 def get_booking(booking_id):
     session = Session()
     try:
-        booking = session.query(B).filter_by(booking_id=booking_id).first()
+        booking = session.query(B).options(
+            joinedload(B.room),
+            joinedload(B.user)
+        ).filter_by(booking_id=booking_id).first()
+        
         if not booking:
             return jsonify({"message": "Booking not found"}), 404
 
@@ -80,10 +85,43 @@ def get_booking(booking_id):
 def get_all_bookings():
     session = Session()
     try:
-        bookings = session.query(B).all()
+        # Get pagination parameters
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 50, type=int)
+        status = request.args.get('status', None, type=str)
+        
+        # Limit per_page to prevent abuse
+        per_page = min(per_page, 100)
+        
+        # Build query with eager loading
+        query = session.query(B).options(
+            joinedload(B.room),
+            joinedload(B.user)
+        )
+        
+        # Apply filters
+        if status:
+            query = query.filter_by(status=status)
+        
+        # Get total count for pagination info
+        total_count = query.count()
+        
+        # Apply pagination
+        offset = (page - 1) * per_page
+        bookings = query.offset(offset).limit(per_page).all()
+        
         schema = BookingSchema(many=True)
-        logger.info("All bookings fetched by admin")
-        return schema.dump(bookings), 200
+        logger.info(f"Admin fetched bookings (page {page})")
+        
+        return jsonify({
+            "data": schema.dump(bookings),
+            "pagination": {
+                "page": page,
+                "per_page": per_page,
+                "total": total_count,
+                "pages": (total_count + per_page - 1) // per_page
+            }
+        }), 200
     except Exception as e:
         logger.error(f"Error fetching all bookings: {str(e)}")
         return jsonify({"message": "Server Error", "error": str(e)}), 500
@@ -170,6 +208,60 @@ def cancel_booking(booking_id):
     except Exception as e:
         session.rollback()
         logger.error(f"Error cancelling booking {booking_id}: {str(e)}")
+        return jsonify({"message": "Server Error", "error": str(e)}), 500
+    finally:
+        session.close()
+
+def get_user_bookings(user_id):
+    session = Session()
+    try:
+        user_id = uuid.UUID(str(user_id))
+    except ValueError:
+        return jsonify({"message": "Invalid user ID format"}), 400
+
+    try:
+        # Check if the user is accessing their own bookings or is an admin
+        if g.current_user.user_id != user_id and g.current_user.role != 'admin':
+            return jsonify({"message": "You are not allowed to view these bookings"}), 403
+
+        # Get pagination parameters
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 50, type=int)
+        status = request.args.get('status', None, type=str)
+        
+        # Limit per_page to prevent abuse
+        per_page = min(per_page, 100)
+        
+        # Build query with eager loading
+        query = session.query(B).options(
+            joinedload(B.room)
+        ).filter_by(user_id=user_id)
+        
+        # Apply filters
+        if status:
+            query = query.filter_by(status=status)
+        
+        # Get total count for pagination info
+        total_count = query.count()
+        
+        # Apply pagination
+        offset = (page - 1) * per_page
+        bookings = query.offset(offset).limit(per_page).all()
+        
+        schema = BookingSchema(many=True)
+        logger.info(f"User {g.current_user.user_id} fetched bookings for user {user_id} (page {page})")
+        
+        return jsonify({
+            "data": schema.dump(bookings),
+            "pagination": {
+                "page": page,
+                "per_page": per_page,
+                "total": total_count,
+                "pages": (total_count + per_page - 1) // per_page
+            }
+        }), 200
+    except Exception as e:
+        logger.error(f"Error fetching bookings for user {user_id}: {str(e)}")
         return jsonify({"message": "Server Error", "error": str(e)}), 500
     finally:
         session.close()

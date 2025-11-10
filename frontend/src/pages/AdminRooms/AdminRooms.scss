@@ -1,0 +1,160 @@
+.admin-rooms {
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+  }
+
+  .message {
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    font-size: 15px;
+    font-weight: 500;
+
+    &.message-success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    &.message-error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+  }
+
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .room-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .room-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .room-number {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+  }
+
+  .room-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &.status-available {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    &.status-booked {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+  }
+
+  .room-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .room-type {
+    font-size: 15px;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  .room-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3a5cff;
+    margin: 0;
+  }
+
+  .room-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+
+    button {
+      flex: 1;
+    }
+  }
+
+  .room-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+      }
+
+      input,
+      select {
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+        color: #111827;
+        outline: none;
+        transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+        &:focus {
+          border-color: #3a5cff;
+          box-shadow: 0 0 0 4px rgba(58, 92, 255, 0.15);
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+
+      button {
+        flex: 1;
+      }
+    }
+  }
+
+  .error-message {
+    padding: 32px;
+    text-align: center;
+    font-size: 16px;
+    color: #991b1b;
+    background: #fee2e2;
+    border-radius: 12px;
+  }
+}

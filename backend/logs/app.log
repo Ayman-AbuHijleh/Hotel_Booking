@@ -1,0 +1,82 @@
+2025-11-06 21:47:08 - [ERROR] - app_logger - Error in user registration: Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.
+2025-11-06 22:23:20 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-07 12:07:05 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-07 12:11:46 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-07 12:12:20 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-08 13:41:52 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-08 14:00:11 - [ERROR] - app_logger - Error in user registration: Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.
+2025-11-08 14:05:30 - [ERROR] - app_logger - Error in user registration: Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.
+2025-11-08 14:07:33 - [ERROR] - app_logger - Error in user registration: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2025-11-08 14:08:16 - [INFO] - app_logger - User registered: ayman.ab@gmail.com
+2025-11-08 15:24:12 - [INFO] - app_logger - User registered: a2y2m2a2n2@gmail.com
+2025-11-08 15:33:43 - [INFO] - app_logger - User registered: a2y2m2a2nQ@gmail.com
+2025-11-08 18:31:45 - [INFO] - app_logger - User logged in: a2y2m2a2n@gmail.com
+2025-11-08 18:34:09 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-08 18:45:59 - [INFO] - app_logger - User logged in: a2y2m2a2n@gmail.com
+2025-11-08 18:46:45 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-08 19:12:32 - [INFO] - app_logger - Admin fetched bookings (page 1)
+2025-11-08 19:12:32 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 fetched rooms (page 1)
+2025-11-08 19:13:04 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 created room ai
+2025-11-08 19:13:04 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 fetched rooms (page 1)
+2025-11-08 19:13:50 - [INFO] - app_logger - User logged in: a2y2m2a2n@gmail.com
+2025-11-08 19:14:17 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched bookings for user 28d93fe4-7093-4e80-b95d-c9a7a076868f (page 1)
+2025-11-08 19:15:37 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-08 19:15:54 - [INFO] - app_logger - User logged in: a2y2m2a2n@gmail.com
+2025-11-08 19:16:12 - [INFO] - app_logger - Booking created successfully by user 28d93fe4-7093-4e80-b95d-c9a7a076868f
+2025-11-08 19:16:12 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched rooms (page 1)
+2025-11-08 19:16:59 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched bookings for user 28d93fe4-7093-4e80-b95d-c9a7a076868f (page 1)
+2025-11-08 19:16:59 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched rooms (page 1)
+2025-11-08 19:39:42 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched rooms (page 1)
+2025-11-08 19:39:44 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched bookings for user 28d93fe4-7093-4e80-b95d-c9a7a076868f (page 1)
+2025-11-08 19:39:54 - [INFO] - app_logger - User logged in: a2y2m2a2n@gmail.com
+2025-11-08 19:40:56 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-08 19:40:57 - [INFO] - app_logger - Admin fetched bookings (page 1)
+2025-11-08 19:41:11 - [INFO] - app_logger - Booking 333290dc-d891-497e-885f-90bb165d4082 deleted by user fac6088e-9f1b-4e3b-a812-95bbe18021d9
+2025-11-08 19:41:11 - [INFO] - app_logger - Admin fetched bookings (page 1)
+2025-11-08 19:41:23 - [INFO] - app_logger - User logged in: a2y2m2a2n@gmail.com
+2025-11-08 19:41:36 - [INFO] - app_logger - Booking created successfully by user 28d93fe4-7093-4e80-b95d-c9a7a076868f
+2025-11-08 19:41:36 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched rooms (page 1)
+2025-11-08 19:50:08 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched rooms (page 1)
+2025-11-08 19:50:12 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched bookings for user 28d93fe4-7093-4e80-b95d-c9a7a076868f (page 1)
+2025-11-08 20:05:35 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched rooms (page 1)
+2025-11-08 20:05:35 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched bookings for user 28d93fe4-7093-4e80-b95d-c9a7a076868f (page 1)
+2025-11-08 20:19:51 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched bookings for user 28d93fe4-7093-4e80-b95d-c9a7a076868f (page 1)
+2025-11-08 20:19:51 - [INFO] - app_logger - User 28d93fe4-7093-4e80-b95d-c9a7a076868f fetched rooms (page 1)
+2025-11-08 20:21:53 - [INFO] - app_logger - User registered: a2y2m2a22n@gmail.com
+2025-11-08 20:23:31 - [INFO] - app_logger - User registered: a2y2m2a2s2n@gmail.com
+2025-11-08 20:28:28 - [INFO] - app_logger - User registered: a2y2m2a2s2sn@gmail.com
+2025-11-08 20:29:58 - [INFO] - app_logger - User registered: a2y2m2a2ss2sn@gmail.com
+2025-11-08 20:32:48 - [INFO] - app_logger - User registered: a2y2m2a2kkn@gmail.com
+2025-11-08 20:57:05 - [INFO] - app_logger - User logged in: a2y2m2a2s2sn@gmail.com
+2025-11-08 20:57:06 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched rooms (page 1)
+2025-11-08 20:57:17 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched bookings for user 9619545b-a83b-4475-97d2-fe1f8cfeea76 (page 1)
+2025-11-08 20:57:30 - [INFO] - app_logger - Booking created successfully by user 9619545b-a83b-4475-97d2-fe1f8cfeea76
+2025-11-08 20:57:30 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched rooms (page 1)
+2025-11-08 20:57:35 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched bookings for user 9619545b-a83b-4475-97d2-fe1f8cfeea76 (page 1)
+2025-11-08 20:57:55 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched rooms (page 1)
+2025-11-08 20:58:17 - [INFO] - app_logger - User logged in: a2y2m2a2s2sn@gmail.com
+2025-11-08 20:58:27 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched rooms (page 1)
+2025-11-08 20:58:29 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched bookings for user 9619545b-a83b-4475-97d2-fe1f8cfeea76 (page 1)
+2025-11-08 21:22:25 - [INFO] - app_logger - User logged in: a2y2m2a2s2sn@gmail.com
+2025-11-08 21:22:25 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched rooms (page 1)
+2025-11-08 21:22:26 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched bookings for user 9619545b-a83b-4475-97d2-fe1f8cfeea76 (page 1)
+2025-11-08 21:23:07 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-08 21:23:08 - [INFO] - app_logger - Admin fetched bookings (page 1)
+2025-11-08 21:26:22 - [INFO] - app_logger - User logged in: a2y2m2a2s2sn@gmail.com
+2025-11-08 21:26:31 - [INFO] - app_logger - User logged in: a2y2m2a2s2sn@gmail.com
+2025-11-08 21:32:57 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-08 21:32:57 - [INFO] - app_logger - Admin fetched bookings (page 1)
+2025-11-08 21:32:57 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 fetched rooms (page 1)
+2025-11-08 22:25:04 - [INFO] - app_logger - Admin fetched bookings (page 1)
+2025-11-08 22:25:04 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 fetched rooms (page 1)
+2025-11-09 01:39:51 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-09 01:39:52 - [INFO] - app_logger - Admin fetched bookings (page 1)
+2025-11-09 01:39:52 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 fetched rooms (page 1)
+2025-11-09 01:42:14 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-09 11:17:38 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-09 11:17:38 - [INFO] - app_logger - Admin fetched bookings (page 1)
+2025-11-09 11:17:39 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 fetched rooms (page 1)
+2025-11-09 11:24:32 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 fetched rooms (page 1)
+2025-11-09 11:37:06 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 fetched rooms (page 1)
+2025-11-09 11:59:40 - [INFO] - app_logger - User logged in: a2y2m2a2s2sn@gmail.com
+2025-11-09 11:59:41 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched rooms (page 1)

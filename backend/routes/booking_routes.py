@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, g
 from controllers import (
-    get_all_bookings, get_booking,
+    get_all_bookings, get_booking, get_user_bookings,
     create_booking, update_booking,
     delete_booking, cancel_booking
 )
@@ -45,6 +45,14 @@ def delete_booking_route(booking_id):
 @booking_bp.route('/booking/<uuid:booking_id>/cancel', methods=['POST'])
 @token_required
 @limiter.limit("2/30minutes")
- 
 def cancel_booking_route(booking_id):
     return cancel_booking(booking_id)
+
+@booking_bp.route('/user/<uuid:user_id>/bookings', methods=['GET'])
+@token_required
+@cache.cached(
+    timeout=20,
+    key_prefix=lambda: f"user_{g.current_user.user_id}_user_bookings_{request.view_args.get('user_id')}"
+)
+def get_user_bookings_route(user_id):
+    return get_user_bookings(user_id)
