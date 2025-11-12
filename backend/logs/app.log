@@ -80,3 +80,13 @@
 2025-11-09 11:37:06 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 fetched rooms (page 1)
 2025-11-09 11:59:40 - [INFO] - app_logger - User logged in: a2y2m2a2s2sn@gmail.com
 2025-11-09 11:59:41 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched rooms (page 1)
+2025-11-11 12:14:43 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-11 12:14:43 - [INFO] - app_logger - Admin fetched bookings (page 1)
+2025-11-11 12:14:44 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 fetched rooms (page 1)
+2025-11-11 12:15:06 - [INFO] - app_logger - User logged in: a2y2m2a2s2sn@gmail.com
+2025-11-11 12:15:08 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched bookings for user 9619545b-a83b-4475-97d2-fe1f8cfeea76 (page 1)
+2025-11-11 12:59:33 - [INFO] - app_logger - User 9619545b-a83b-4475-97d2-fe1f8cfeea76 fetched rooms (page 1)
+2025-11-11 12:59:50 - [INFO] - app_logger - User logged in: ayman.a@gmail.com
+2025-11-11 12:59:50 - [INFO] - app_logger - Admin fetched bookings (page 1)
+2025-11-11 13:19:50 - [INFO] - app_logger - User fac6088e-9f1b-4e3b-a812-95bbe18021d9 fetched rooms (page 1)
+2025-11-11 13:19:50 - [INFO] - app_logger - Admin fetched bookings (page 1)
