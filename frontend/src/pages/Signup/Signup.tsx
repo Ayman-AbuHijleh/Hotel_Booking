@@ -8,10 +8,11 @@ import {
   validateName,
 } from "../../utils/validation";
 
-import { useRegister } from "../../hooks/useRegister";
 import { useNavigate } from "react-router-dom";
-import type { UseMutationResult } from "@tanstack/react-query";
+
 import type { RegisterData, RegisterResponse } from "../../services/user.api";
+import { useMutation } from "@tanstack/react-query";
+import { registerUser } from "../../services/user.api";
 
 type FormState = {
   name: string;
@@ -36,12 +37,11 @@ export default function Signup() {
   const [message, setMessage] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const registerMutation: UseMutationResult<
-    RegisterResponse,
-    unknown,
-    RegisterData,
-    unknown
-  > = useRegister();
+  const registerMutation = useMutation<RegisterResponse, unknown, RegisterData>(
+    {
+      mutationFn: registerUser,
+    }
+  );
 
   const setField = (field: keyof FormState, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
