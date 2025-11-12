@@ -13,13 +13,23 @@ import Card from "../../components/Card";
 import Loader from "../../components/Loader";
 import Pagination from "../../components/Pagination";
 import { usePagination } from "../../hooks/usePagination";
+import {
+  QUERY_KEYS,
+  RoomType,
+  RoomStatus,
+  MessageType,
+  API_MESSAGES,
+  CONFIRM_MESSAGES,
+  type RoomTypeType,
+  type RoomStatusType,
+} from "../../constants";
 import "./AdminRooms.scss";
 
 type RoomFormData = {
   room_number: string;
-  room_type: "Single" | "Double" | "Suite";
+  room_type: RoomTypeType;
   price_per_night: string;
-  status: "available" | "booked";
+  status: RoomStatusType;
 };
 
 export default function AdminRooms() {
@@ -28,12 +38,12 @@ export default function AdminRooms() {
   const [editingRoom, setEditingRoom] = useState<Room | null>(null);
   const [formData, setFormData] = useState<RoomFormData>({
     room_number: "",
-    room_type: "Single",
+    room_type: RoomType.SINGLE,
     price_per_night: "",
-    status: "available",
+    status: RoomStatus.AVAILABLE,
   });
   const [message, setMessage] = useState<{
-    type: "success" | "error";
+    type: typeof MessageType.SUCCESS | typeof MessageType.ERROR;
     text: string;
   } | null>(null);
 
@@ -42,7 +52,7 @@ export default function AdminRooms() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["rooms"],
+    queryKey: [QUERY_KEYS.ROOMS],
     queryFn: () => getAllRooms(),
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
@@ -63,15 +73,18 @@ export default function AdminRooms() {
   const createMutation = useMutation({
     mutationFn: createRoom,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
-      setMessage({ type: "success", text: "Room created successfully!" });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ROOMS] });
+      setMessage({
+        type: MessageType.SUCCESS,
+        text: API_MESSAGES.ROOM_CREATED,
+      });
       closeModal();
       setTimeout(() => setMessage(null), 3000);
     },
     onError: (error: any) => {
       setMessage({
-        type: "error",
-        text: error?.response?.data?.message || "Failed to create room",
+        type: MessageType.ERROR,
+        text: error?.response?.data?.message || API_MESSAGES.ROOM_CREATE_FAILED,
       });
       setTimeout(() => setMessage(null), 3000);
     },
@@ -81,15 +94,18 @@ export default function AdminRooms() {
     mutationFn: ({ id, data }: { id: string; data: CreateRoomData }) =>
       updateRoom(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
-      setMessage({ type: "success", text: "Room updated successfully!" });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ROOMS] });
+      setMessage({
+        type: MessageType.SUCCESS,
+        text: API_MESSAGES.ROOM_UPDATED,
+      });
       closeModal();
       setTimeout(() => setMessage(null), 3000);
     },
     onError: (error: any) => {
       setMessage({
-        type: "error",
-        text: error?.response?.data?.message || "Failed to update room",
+        type: MessageType.ERROR,
+        text: error?.response?.data?.message || API_MESSAGES.ROOM_UPDATE_FAILED,
       });
       setTimeout(() => setMessage(null), 3000);
     },
@@ -98,14 +114,17 @@ export default function AdminRooms() {
   const deleteMutation = useMutation({
     mutationFn: deleteRoom,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
-      setMessage({ type: "success", text: "Room deleted successfully!" });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ROOMS] });
+      setMessage({
+        type: MessageType.SUCCESS,
+        text: API_MESSAGES.ROOM_DELETED,
+      });
       setTimeout(() => setMessage(null), 3000);
     },
     onError: (error: any) => {
       setMessage({
-        type: "error",
-        text: error?.response?.data?.message || "Failed to delete room",
+        type: MessageType.ERROR,
+        text: error?.response?.data?.message || API_MESSAGES.ROOM_DELETE_FAILED,
       });
       setTimeout(() => setMessage(null), 3000);
     },
@@ -115,9 +134,9 @@ export default function AdminRooms() {
     setEditingRoom(null);
     setFormData({
       room_number: "",
-      room_type: "Single",
+      room_type: RoomType.SINGLE,
       price_per_night: "",
-      status: "available",
+      status: RoomStatus.AVAILABLE,
     });
     setIsModalOpen(true);
   };
@@ -156,7 +175,7 @@ export default function AdminRooms() {
   };
 
   const handleDelete = (roomId: string) => {
-    if (window.confirm("Are you sure you want to delete this room?")) {
+    if (window.confirm(CONFIRM_MESSAGES.DELETE_ROOM)) {
       deleteMutation.mutate(roomId);
     }
   };
@@ -240,14 +259,14 @@ export default function AdminRooms() {
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  room_type: e.target.value as "Single" | "Double" | "Suite",
+                  room_type: e.target.value as RoomTypeType,
                 })
               }
               required
             >
-              <option value="Single">Single</option>
-              <option value="Double">Double</option>
-              <option value="Suite">Suite</option>
+              <option value={RoomType.SINGLE}>Single</option>
+              <option value={RoomType.DOUBLE}>Double</option>
+              <option value={RoomType.SUITE}>Suite</option>
             </select>
           </div>
 
@@ -273,13 +292,13 @@ export default function AdminRooms() {
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  status: e.target.value as "available" | "booked",
+                  status: e.target.value as RoomStatusType,
                 })
               }
               required
             >
-              <option value="available">Available</option>
-              <option value="booked">Booked</option>
+              <option value={RoomStatus.AVAILABLE}>Available</option>
+              <option value={RoomStatus.BOOKED}>Booked</option>
             </select>
           </div>
 

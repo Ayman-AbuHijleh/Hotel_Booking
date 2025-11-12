@@ -1,12 +1,13 @@
 import axios from "axios";
 import { API_BASE_URL } from "./config";
+import type { RoomStatusType, RoomTypeType } from "../constants";
 
 export interface Room {
   room_id: string;
   room_number: string;
-  room_type: "Single" | "Double" | "Suite";
+  room_type: RoomTypeType;
   price_per_night: number;
-  status: "available" | "booked";
+  status: RoomStatusType;
 }
 
 export interface PaginatedResponse<T> {
@@ -21,16 +22,16 @@ export interface PaginatedResponse<T> {
 
 export interface CreateRoomData {
   room_number: string;
-  room_type: "Single" | "Double" | "Suite";
+  room_type: RoomTypeType;
   price_per_night: number;
-  status?: "available" | "booked";
+  status?: RoomStatusType;
 }
 
 export interface UpdateRoomData {
   room_number?: string;
-  room_type?: "Single" | "Double" | "Suite";
+  room_type?: RoomTypeType;
   price_per_night?: number;
-  status?: "available" | "booked";
+  status?: RoomStatusType;
 }
 
 const getAuthHeaders = () => {

@@ -10,6 +10,12 @@ import Card from "../../components/Card";
 import Loader from "../../components/Loader";
 import Pagination from "../../components/Pagination";
 import { usePagination } from "../../hooks/usePagination";
+import {
+  QUERY_KEYS,
+  RoomStatus,
+  MessageType,
+  API_MESSAGES,
+} from "../../constants";
 import "./Rooms.scss";
 
 type BookingFormData = {
@@ -26,7 +32,7 @@ export default function Rooms() {
     end_date: "",
   });
   const [message, setMessage] = useState<{
-    type: "success" | "error";
+    type: typeof MessageType.SUCCESS | typeof MessageType.ERROR;
     text: string;
   } | null>(null);
 
@@ -35,7 +41,7 @@ export default function Rooms() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["rooms"],
+    queryKey: [QUERY_KEYS.ROOMS],
     queryFn: () => getAllRooms(),
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
@@ -43,11 +49,11 @@ export default function Rooms() {
 
   // Memoize filtered rooms
   const availableRooms = useMemo(
-    () => rooms.filter((room) => room.status === "available"),
+    () => rooms.filter((room) => room.status === RoomStatus.AVAILABLE),
     [rooms]
   );
   const bookedRooms = useMemo(
-    () => rooms.filter((room) => room.status === "booked"),
+    () => rooms.filter((room) => room.status === RoomStatus.BOOKED),
     [rooms]
   );
 
@@ -78,23 +84,30 @@ export default function Rooms() {
   const bookingMutation = useMutation({
     mutationFn: createBooking,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
-      setMessage({ type: "success", text: "Room booked successfully!" });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ROOMS] });
+      setMessage({
+        type: MessageType.SUCCESS,
+        text: API_MESSAGES.BOOKING_CREATED,
+      });
       closeModal();
       setTimeout(() => setMessage(null), 3000);
     },
     onError: (error: any) => {
       setMessage({
-        type: "error",
-        text: error?.response?.data?.message || "Failed to book room",
+        type: MessageType.ERROR,
+        text:
+          error?.response?.data?.message || API_MESSAGES.BOOKING_CREATE_FAILED,
       });
       setTimeout(() => setMessage(null), 3000);
     },
   });
 
   const openBookingModal = (room: Room) => {
-    if (room.status === "booked") {
-      setMessage({ type: "error", text: "This room is already booked" });
+    if (room.status === RoomStatus.BOOKED) {
+      setMessage({
+        type: MessageType.ERROR,
+        text: API_MESSAGES.ROOM_ALREADY_BOOKED,
+      });
       setTimeout(() => setMessage(null), 3000);
       return;
     }
@@ -131,7 +144,7 @@ export default function Rooms() {
     const end = new Date(formData.end_date);
 
     if (start >= end) {
-      setMessage({ type: "error", text: "End date must be after start date" });
+      setMessage({ type: MessageType.ERROR, text: API_MESSAGES.INVALID_DATES });
       setTimeout(() => setMessage(null), 3000);
       return;
     }

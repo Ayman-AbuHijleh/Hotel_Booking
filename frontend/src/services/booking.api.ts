@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "./config";
+import type { BookingStatusType } from "../constants";
 
 export interface Booking {
   booking_id: string;
@@ -7,7 +8,7 @@ export interface Booking {
   room_id: string;
   start_date: string;
   end_date: string;
-  status: "active" | "completed" | "cancelled";
+  status: BookingStatusType;
   total_price: number;
 }
 
@@ -31,7 +32,7 @@ export interface UpdateBookingData {
   room_id?: string;
   start_date?: string;
   end_date?: string;
-  status?: "active" | "completed" | "cancelled";
+  status?: BookingStatusType;
 }
 
 const getAuthHeaders = () => {

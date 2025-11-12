@@ -12,31 +12,40 @@ import Card from "../../components/Card";
 import Loader from "../../components/Loader";
 import Pagination from "../../components/Pagination";
 import { usePagination } from "../../hooks/usePagination";
+import {
+  QUERY_KEYS,
+  BookingStatus,
+  MessageType,
+  API_MESSAGES,
+  CONFIRM_MESSAGES,
+  FILTER_OPTIONS,
+  type BookingStatusType,
+} from "../../constants";
 import "./AdminBookings.scss";
 
 export default function AdminBookings() {
   const queryClient = useQueryClient();
   const [message, setMessage] = useState<{
-    type: "success" | "error";
+    type: typeof MessageType.SUCCESS | typeof MessageType.ERROR;
     text: string;
   } | null>(null);
   const [filter, setFilter] = useState<
-    "all" | "active" | "completed" | "cancelled"
-  >("all");
+    typeof FILTER_OPTIONS.ALL | BookingStatusType
+  >(FILTER_OPTIONS.ALL);
 
   const {
     data: bookings = [],
     isLoading: bookingsLoading,
     error: bookingsError,
   } = useQuery({
-    queryKey: ["allBookings"],
+    queryKey: [QUERY_KEYS.ALL_BOOKINGS],
     queryFn: () => getAllBookings(),
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
   });
 
   const { data: rooms = [] } = useQuery({
-    queryKey: ["rooms"],
+    queryKey: [QUERY_KEYS.ROOMS],
     queryFn: () => getAllRooms(),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
@@ -46,7 +55,7 @@ export default function AdminBookings() {
   const filteredBookings = useMemo(
     () =>
       bookings?.filter((booking) => {
-        if (filter === "all") return true;
+        if (filter === FILTER_OPTIONS.ALL) return true;
         return booking.status === filter;
       }) || [],
     [bookings, filter]
@@ -67,14 +76,18 @@ export default function AdminBookings() {
   const cancelMutation = useMutation({
     mutationFn: cancelBooking,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["allBookings"] });
-      setMessage({ type: "success", text: "Booking cancelled successfully!" });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ALL_BOOKINGS] });
+      setMessage({
+        type: MessageType.SUCCESS,
+        text: API_MESSAGES.BOOKING_CANCELLED,
+      });
       setTimeout(() => setMessage(null), 3000);
     },
     onError: (error: any) => {
       setMessage({
-        type: "error",
-        text: error?.response?.data?.message || "Failed to cancel booking",
+        type: MessageType.ERROR,
+        text:
+          error?.response?.data?.message || API_MESSAGES.BOOKING_CANCEL_FAILED,
       });
       setTimeout(() => setMessage(null), 3000);
     },
@@ -83,27 +96,31 @@ export default function AdminBookings() {
   const deleteMutation = useMutation({
     mutationFn: deleteBooking,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["allBookings"] });
-      setMessage({ type: "success", text: "Booking deleted successfully!" });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ALL_BOOKINGS] });
+      setMessage({
+        type: MessageType.SUCCESS,
+        text: API_MESSAGES.BOOKING_DELETED,
+      });
       setTimeout(() => setMessage(null), 3000);
     },
     onError: (error: any) => {
       setMessage({
-        type: "error",
-        text: error?.response?.data?.message || "Failed to delete booking",
+        type: MessageType.ERROR,
+        text:
+          error?.response?.data?.message || API_MESSAGES.BOOKING_DELETE_FAILED,
       });
       setTimeout(() => setMessage(null), 3000);
     },
   });
 
   const handleCancel = (bookingId: string) => {
-    if (window.confirm("Are you sure you want to cancel this booking?")) {
+    if (window.confirm(CONFIRM_MESSAGES.CANCEL_BOOKING)) {
       cancelMutation.mutate(bookingId);
     }
   };
 
   const handleDelete = (bookingId: string) => {
-    if (window.confirm("Are you sure you want to delete this booking?")) {
+    if (window.confirm(CONFIRM_MESSAGES.DELETE_BOOKING)) {
       deleteMutation.mutate(bookingId);
     }
   };
@@ -136,26 +153,34 @@ export default function AdminBookings() {
         <h1 className="page-title">All Bookings</h1>
         <div className="filter-buttons">
           <button
-            className={`filter-btn ${filter === "all" ? "active" : ""}`}
-            onClick={() => setFilter("all")}
+            className={`filter-btn ${
+              filter === FILTER_OPTIONS.ALL ? "active" : ""
+            }`}
+            onClick={() => setFilter(FILTER_OPTIONS.ALL)}
           >
             All
           </button>
           <button
-            className={`filter-btn ${filter === "active" ? "active" : ""}`}
-            onClick={() => setFilter("active")}
+            className={`filter-btn ${
+              filter === BookingStatus.ACTIVE ? "active" : ""
+            }`}
+            onClick={() => setFilter(BookingStatus.ACTIVE)}
           >
             Active
           </button>
           <button
-            className={`filter-btn ${filter === "completed" ? "active" : ""}`}
-            onClick={() => setFilter("completed")}
+            className={`filter-btn ${
+              filter === BookingStatus.COMPLETED ? "active" : ""
+            }`}
+            onClick={() => setFilter(BookingStatus.COMPLETED)}
           >
             Completed
           </button>
           <button
-            className={`filter-btn ${filter === "cancelled" ? "active" : ""}`}
-            onClick={() => setFilter("cancelled")}
+            className={`filter-btn ${
+              filter === BookingStatus.CANCELLED ? "active" : ""
+            }`}
+            onClick={() => setFilter(BookingStatus.CANCELLED)}
           >
             Cancelled
           </button>
@@ -226,7 +251,7 @@ export default function AdminBookings() {
               </div>
 
               <div className="booking-actions">
-                {booking.status === "active" && (
+                {booking.status === BookingStatus.ACTIVE && (
                   <Button
                     onClick={() => handleCancel(booking.booking_id)}
                     variant="danger"

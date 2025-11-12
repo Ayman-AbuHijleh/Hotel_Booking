@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "./config";
+import type { UserRoleType } from "../constants";
 
 export interface LoginResponse {
   message: string;
@@ -8,7 +9,7 @@ export interface LoginResponse {
     email: string;
     name: string;
     phone: string;
-    role: "admin" | "customer";
+    role: UserRoleType;
     user_id: string;
   };
 }

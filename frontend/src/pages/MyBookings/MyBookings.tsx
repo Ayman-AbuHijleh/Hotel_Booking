@@ -14,13 +14,20 @@ import Card from "../../components/Card";
 import Loader from "../../components/Loader";
 import Pagination from "../../components/Pagination";
 import { usePagination } from "../../hooks/usePagination";
+import {
+  QUERY_KEYS,
+  BookingStatus,
+  MessageType,
+  API_MESSAGES,
+  CONFIRM_MESSAGES,
+} from "../../constants";
 import "./MyBookings.scss";
 
 export default function MyBookings() {
   const queryClient = useQueryClient();
   const { user } = useSelector((state: RootState) => state.auth);
   const [message, setMessage] = useState<{
-    type: "success" | "error";
+    type: typeof MessageType.SUCCESS | typeof MessageType.ERROR;
     text: string;
   } | null>(null);
 
@@ -29,7 +36,7 @@ export default function MyBookings() {
     isLoading: bookingsLoading,
     error: bookingsError,
   } = useQuery({
-    queryKey: ["userBookings", user?.user_id],
+    queryKey: [QUERY_KEYS.USER_BOOKINGS, user?.user_id],
     queryFn: () => getUserBookings(user?.user_id || ""),
     enabled: !!user?.user_id,
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -37,7 +44,7 @@ export default function MyBookings() {
   });
 
   const { data: rooms = [] } = useQuery({
-    queryKey: ["rooms"],
+    queryKey: [QUERY_KEYS.ROOMS],
     queryFn: () => getAllRooms(),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
@@ -45,11 +52,11 @@ export default function MyBookings() {
 
   // Memoize filtered bookings
   const activeBookings = useMemo(
-    () => bookings.filter((b) => b.status === "active"),
+    () => bookings.filter((b) => b.status === BookingStatus.ACTIVE),
     [bookings]
   );
   const pastBookings = useMemo(
-    () => bookings.filter((b) => b.status !== "active"),
+    () => bookings.filter((b) => b.status !== BookingStatus.ACTIVE),
     [bookings]
   );
 
@@ -80,14 +87,18 @@ export default function MyBookings() {
   const cancelMutation = useMutation({
     mutationFn: cancelBooking,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userBookings"] });
-      setMessage({ type: "success", text: "Booking cancelled successfully!" });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.USER_BOOKINGS] });
+      setMessage({
+        type: MessageType.SUCCESS,
+        text: API_MESSAGES.BOOKING_CANCELLED,
+      });
       setTimeout(() => setMessage(null), 3000);
     },
     onError: (error: any) => {
       setMessage({
-        type: "error",
-        text: error?.response?.data?.message || "Failed to cancel booking",
+        type: MessageType.ERROR,
+        text:
+          error?.response?.data?.message || API_MESSAGES.BOOKING_CANCEL_FAILED,
       });
       setTimeout(() => setMessage(null), 3000);
     },
@@ -96,27 +107,31 @@ export default function MyBookings() {
   const deleteMutation = useMutation({
     mutationFn: deleteBooking,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userBookings"] });
-      setMessage({ type: "success", text: "Booking deleted successfully!" });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.USER_BOOKINGS] });
+      setMessage({
+        type: MessageType.SUCCESS,
+        text: API_MESSAGES.BOOKING_DELETED,
+      });
       setTimeout(() => setMessage(null), 3000);
     },
     onError: (error: any) => {
       setMessage({
-        type: "error",
-        text: error?.response?.data?.message || "Failed to delete booking",
+        type: MessageType.ERROR,
+        text:
+          error?.response?.data?.message || API_MESSAGES.BOOKING_DELETE_FAILED,
       });
       setTimeout(() => setMessage(null), 3000);
     },
   });
 
   const handleCancel = (bookingId: string) => {
-    if (window.confirm("Are you sure you want to cancel this booking?")) {
+    if (window.confirm(CONFIRM_MESSAGES.CANCEL_BOOKING)) {
       cancelMutation.mutate(bookingId);
     }
   };
 
   const handleDelete = (bookingId: string) => {
-    if (window.confirm("Are you sure you want to delete this booking?")) {
+    if (window.confirm(CONFIRM_MESSAGES.DELETE_BOOKING)) {
       deleteMutation.mutate(bookingId);
     }
   };

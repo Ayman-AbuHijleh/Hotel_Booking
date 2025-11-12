@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
+import { UserRole, ROUTES, API_MESSAGES } from "../../constants";
 
 type FormState = {
   email: string;
@@ -25,7 +26,7 @@ export default function Login() {
   useEffect(() => {
     if (isAuthenticated && user) {
       const redirectPath =
-        user.role === "admin" ? "/admin/dashboard" : "/rooms";
+        user.role === UserRole.ADMIN ? ROUTES.ADMIN_DASHBOARD : ROUTES.ROOMS;
       navigate(redirectPath);
     }
   }, [isAuthenticated, user, navigate]);
@@ -109,15 +110,13 @@ export default function Login() {
 
           {/* Error Message */}
           {loginMutation.isError && (
-            <p className="error-text mt-2">
-              Failed to login. Please check your credentials.
-            </p>
+            <p className="error-text mt-2">{API_MESSAGES.LOGIN_FAILED}</p>
           )}
 
           {/* Signup Link */}
           <div className="flex items-center gap-1 mt-3">
             <h2 className="text-gray-900 text-sm">Don't have an account?</h2>
-            <Link className="brand hover:underline" to="/signup">
+            <Link className="brand hover:underline" to={ROUTES.SIGNUP}>
               Create one
             </Link>
           </div>

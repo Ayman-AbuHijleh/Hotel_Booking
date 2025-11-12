@@ -5,35 +5,50 @@ import { getAllRooms } from "../../services/room.api";
 import DashboardCard from "../../components/DashboardCard";
 import DetailCard from "../../components/DetailCard";
 import Loader from "../../components/Loader";
+import {
+  QUERY_KEYS,
+  BookingStatus,
+  RoomStatus,
+  RoomType,
+} from "../../constants";
 import "./AdminDashboard.scss";
 
 export default function AdminDashboard() {
   const { data: bookings = [], isLoading: bookingsLoading } = useQuery({
-    queryKey: ["allBookings"],
+    queryKey: [QUERY_KEYS.ALL_BOOKINGS],
     queryFn: () => getAllBookings(),
   });
 
   const { data: rooms = [], isLoading: roomsLoading } = useQuery({
-    queryKey: ["rooms"],
+    queryKey: [QUERY_KEYS.ROOMS],
     queryFn: () => getAllRooms(),
   });
 
   const stats = useMemo(() => {
-    const activeBookings = bookings.filter((b) => b.status === "active");
-    const completedBookings = bookings.filter((b) => b.status === "completed");
-    const cancelledBookings = bookings.filter((b) => b.status === "cancelled");
-    const availableRooms = rooms.filter((r) => r.status === "available");
-    const bookedRooms = rooms.filter((r) => r.status === "booked");
+    const activeBookings = bookings.filter(
+      (b) => b.status === BookingStatus.ACTIVE
+    );
+    const completedBookings = bookings.filter(
+      (b) => b.status === BookingStatus.COMPLETED
+    );
+    const cancelledBookings = bookings.filter(
+      (b) => b.status === BookingStatus.CANCELLED
+    );
+    const availableRooms = rooms.filter(
+      (r) => r.status === RoomStatus.AVAILABLE
+    );
+    const bookedRooms = rooms.filter((r) => r.status === RoomStatus.BOOKED);
 
     const totalRevenue = bookings.reduce((sum, booking) => {
-      if (booking.status !== "cancelled") return sum + booking.total_price;
+      if (booking.status !== BookingStatus.CANCELLED)
+        return sum + booking.total_price;
       return sum;
     }, 0);
 
     const roomsByType = {
-      single: rooms.filter((r) => r.room_type === "Single").length,
-      double: rooms.filter((r) => r.room_type === "Double").length,
-      suite: rooms.filter((r) => r.room_type === "Suite").length,
+      single: rooms.filter((r) => r.room_type === RoomType.SINGLE).length,
+      double: rooms.filter((r) => r.room_type === RoomType.DOUBLE).length,
+      suite: rooms.filter((r) => r.room_type === RoomType.SUITE).length,
     };
 
     return {
